@@ -1,0 +1,46 @@
+#include <stdio.h>
+
+// Defines
+#define RIGHT 0
+#define LEFT  1
+
+// Stack
+int mult = 0;
+int carry;
+int count = 0;
+
+// Number
+int num = 0;
+short num_set = 0;
+
+
+void pushLeft() {
+  mult = (mult<<1); mult++;
+  count++;
+}
+
+void pushRight() {
+  mult = (mult<<1);
+  count++;
+}
+
+void pop () {
+  if (mult % 2 == 0) {
+    carry = RIGHT;
+    mult = (mult>>1);
+  } else {
+    carry = LEFT;
+    mult = (mult>>1);
+  }
+  count++;
+}
+
+void pushNum(int n) {
+  num = n;
+  num_set = 1;
+  count++;
+}
+
+int main(int argc, char *argv[]) {
+  // Generated code goes here
+
