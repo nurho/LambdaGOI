@@ -21,10 +21,10 @@ class Parser {
 
     AST term;
     term = parseAtom();
-    //while (current < tokens.size() && tokens.get(current).getType() == Token.TokenType.whitespace) {
-    // current++;
+    /*while (tokens.get(current).getType() == Token.TokenType.whitespace) {
+     current++;
+    }*/
     term = parseAppPrime(term);
-    //}
     return term;
   }
 
@@ -62,8 +62,13 @@ class Parser {
       AST cons = new AST(new Node(Node.NodeType.cons_node, tok.getValue()));
       return cons;
     }  else if (tok.getType() == Token.TokenType.succ) {
+      /*
       current++;
-      AST succ = new AST(new Node(Node.NodeType.succ_node));
+      if (tok.getType() != Token.TokenType.var) {
+        throw new Exception("Invalid argument for successor");
+      } */
+      current++;
+      AST succ = new AST(new Node(Node.NodeType.succ_node, tok.getName()));
       return succ;
     } else if (tok.getType() == Token.TokenType.lambda) {
       current++;

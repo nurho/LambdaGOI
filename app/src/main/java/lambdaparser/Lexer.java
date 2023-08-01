@@ -21,7 +21,9 @@ public class Lexer {
       } else if (c >= 'a' && c <= 'z') {
         tokens.add(new Token(Token.TokenType.var, c));
       } else if (c == 'S') {
-        tokens.add(new Token(Token.TokenType.succ));
+        i++;
+        char v = input.charAt(i); 
+        tokens.add(new Token(Token.TokenType.succ, v));
       } else if (c >= '0' && c <= '9') {
         String s = "" + c;
         c = input.charAt(i+1);

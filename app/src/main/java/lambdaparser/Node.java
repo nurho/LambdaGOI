@@ -30,6 +30,10 @@ public class Node {
   public int getValue() {
     return value;
   }
+  
+  public char getName() {
+    return name;
+  }
 
   public String getTypeName() {
     switch (type) {

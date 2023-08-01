@@ -4,13 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-// Git test, scorpion
-// Git test 2, frog
 
 class App {
   public static String output_code = "";
@@ -21,13 +20,15 @@ class App {
     System.out.println(" --- Lambda Parser --- ");
     System.out.println("Enter program:");
 
+    // Read input line
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
     String input = reader.readLine();
 
+    // Lex tokens
     Lexer lexer = new Lexer();
     ArrayList<Token> tokens = lexer.lex(input);
 
+    // Print tokens
     System.out.println("\nTokens:");
     for (int i = 0; i < tokens.size(); i++) {
       Token t = tokens.get(i);
@@ -38,9 +39,16 @@ class App {
       }
     }
 
+    // Remove whitespace
+    for (int i = 0; i < tokens.size(); i++) {
+      if (tokens.get(i).getType().name() == "whitespace") {
+        tokens.remove(i);
+      }
+    }
+
+    // Parse tokens
     Parser parser = new Parser();
     AST ast;
-
     try {
       ast = parser.parse(tokens);
     } catch (Exception e) {
@@ -48,19 +56,25 @@ class App {
       return;
     }
 
+    // Print AST
     System.out.println("\nTree:");
     ast.printAST();
 
+    // Generate labels
     System.out.println("\nGenerating labels...\n");
     ast.generateLabels();
 
-    Path boilerplate = Paths.get("src/main/resources/boilerplate.txt");
-    String final_code = Files.readString(boilerplate);
+    // Find connections
+    AST.vars = new HashMap<Character, AST>();
 
+    // Print labels
     System.out.println("\nOutput:");
     ast.writeLabels("l000","","");
     System.out.print(output_code);
 
+    // Generate code and write to file
+    Path boilerplate = Paths.get("src/main/resources/boilerplate.txt");
+    String final_code = Files.readString(boilerplate);
     final_code += output_code;
     final_code += "\n  l000: printf(\"Finished after %d stack operations\\n\",count);"
                 + "  if (num_set > 0) printf(\"Result: %d\\n\", num);"

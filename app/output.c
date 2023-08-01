@@ -44,32 +44,48 @@ void pushNum(int n) {
 int main(int argc, char *argv[]) {
   // Generated code goes here
 
+  // Abstraction Top
+  l1:  printf("Abs top\n"); pop(); if (carry == LEFT) goto l4; else goto l5;
+  // Abstraction Left
+  l2:  printf("Abs left\n"); pushRight(); goto ;
+  // Abstraction Right
+  l3:  printf("Abs right\n"); pushLeft(); goto ;
+
   // Application Top
-  l1:  printf("App top\n"); pushLeft(); goto l4;
-  // Application Left
-  l2:  printf("App left\n"); pushRight(); goto l4;
+  l4:  printf("App top\n"); pushLeft(); goto l7;
   // Application Right
-  l3:  printf("App right\n"); pop(); if (carry == LEFT) goto l000; else goto l11;
+  l6:  printf("App right\n"); pushRight(); goto l7;
+  // Application left
+  l5:  printf("App left\n"); pop(); if (carry == LEFT) goto l1; else goto l9;
+
+  // Successor top
+  l7:  printf("Succ visit\n"); goto l5;
+
+  // Successor bottom
+  l8: printf("Succ increment\n");  num++; goto l6;
+
+  // Application Top
+  l9:  printf("App top\n"); pushLeft(); goto l12;
+  // Application Right
+  l11:  printf("App right\n"); pushRight(); goto l12;
+  // Application left
+  l10:  printf("App left\n"); pop(); if (carry == LEFT) goto l4; else goto l17;
 
   // Abstraction Top
-  l4:  printf("Abs top\n"); pop(); if (carry == LEFT) goto l7; else goto l6;
+  l12:  printf("Abs top\n"); pop(); if (carry == LEFT) goto l15; else goto l16;
   // Abstraction Left
-  l5:  printf("Abs left\n"); pushRight(); goto l3;
+  l13:  printf("Abs left\n"); pushRight(); goto l10;
   // Abstraction Right
-  l6:  printf("Abs right\n"); pushLeft(); goto l3;
+  l14:  printf("Abs right\n"); pushLeft(); goto l10;
 
-  // Application Top
-  l7:  printf("App top\n"); pushLeft(); goto l10;
-  // Application Left
-  l8:  printf("App left\n"); pushRight(); goto l10;
-  // Application Right
-  l9:  printf("App right\n"); pop(); if (carry == LEFT) goto l6; else {pushRight(); goto l10;}
+  // Successor top
+  l15:  printf("Succ visit\n"); goto l13;
 
-  // Successor
-  l10: pop(); if (carry == LEFT) { printf("Succ visit\n"); goto l8; } else {num++; printf("Succ increment\n"); goto l9;}
+  // Successor bottom
+  l16: printf("Succ increment\n");  num++; goto l14;
 
   // Constant
-  l11: pushNum(4); printf("Push num\n"); goto l2; 
+  l17: pushNum(4); printf("Push num\n"); num_set = 1; goto l11; 
 
 
   l000: printf("Finished after %d stack operations\n",count);  if (num_set > 0) printf("Result: %d\n", num);
